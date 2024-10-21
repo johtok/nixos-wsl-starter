@@ -8,9 +8,7 @@
   ...
 }: {
   # FIXME: change to your tz! look it up with "timedatectl list-timezones"
-  time.timeZone = "America/Los_Angeles";
-
-  networking.hostName = "${hostname}";
+  time.timeZone = "Europe/Copenhagen";
 
   # FIXME: change your shell here if you don't want fish
   programs.fish.enable = true;
