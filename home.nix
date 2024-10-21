@@ -18,21 +18,28 @@
     fx
     git
     git-crypt
+    grex
     htop
+    hyperfine
+    inferno
+    jaq
     jq
     killall
     lazydocker
     lazygit
     mosh
+    navi
+    ouch
     procs
     ripgrep
     sd
-    tmux
     tealdeer
+    tmux
     tree
     unzip
     vim
     wget
+    xcp
     zip
   ];
 
@@ -46,11 +53,18 @@
     # key tools
     gh # for bootstrapping
     just
+    
+    #c/cpp
+    cmake
+    bazel
+    ninja
+    llvm
 
-    # core languages
+
+    # rust
     rustup
-
-    # rust stuff
+    
+    ##more rusty things
     cargo-cache
     cargo-expand
 
