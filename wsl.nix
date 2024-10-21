@@ -1,6 +1,6 @@
 {
   # FIXME: uncomment the next line if you want to reference your GitHub/GitLab access tokens and other secrets
-  # secrets,
+  secrets,
   username,
   hostname,
   pkgs,
@@ -87,10 +87,10 @@
     settings = {
       trusted-users = [username];
       # FIXME: use your access tokens from secrets.json here to be able to clone private repos on GitHub and GitLab
-      # access-tokens = [
-      #   "github.com=${secrets.github_token}"
+       access-tokens = [
+         "github.com=${secrets.github_token}"
       #   "gitlab.com=OAuth2:${secrets.gitlab_token}"
-      # ];
+       ];
 
       accept-flake-config = true;
       auto-optimise-store = true;
