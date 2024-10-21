@@ -21,11 +21,14 @@
     htop
     jq
     killall
+    lazydocker
+    lazygit
     mosh
     procs
     ripgrep
     sd
     tmux
+    tealdeer
     tree
     unzip
     vim
