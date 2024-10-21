@@ -183,6 +183,7 @@ in {
           + "/extras/kanagawa.fish")}
 
         set -U fish_greeting
+        fish_add_path --append /mnt/c/Users/johan/scoop/apps/win32yank/0.1.1
       '';
       functions = {
         refresh = "source $HOME/.config/fish/config.fish";
