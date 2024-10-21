@@ -123,10 +123,10 @@ in {
     };
 
     # FIXME: disable whatever you don't want
-    fzf.enable = true;
-    fzf.enableFishIntegration = true;
-    lsd.enable = true;
-    lsd.enableAliases = true;
+    skim.enable = true;
+    skim.enableFishIntegration = true;
+    eza.enable = true;
+    eza.enableFishIntegration = true;
     zoxide.enable = true;
     zoxide.enableFishIntegration = true;
     zoxide.options = ["--cmd cd"];
