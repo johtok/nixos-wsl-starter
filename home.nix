@@ -41,6 +41,8 @@
     wget
     xcp
     zip
+    nushellPlugins.polars
+    nushellPlugins.query
   ];
 
   stable-packages = with pkgs; [
@@ -48,8 +50,13 @@
 
     # FIXME: you can add plugins, change keymaps etc using (jeezyvim.nixvimExtend {})
     # https://github.com/LGUG2Z/JeezyVim#extending
-    jeezyvim
+    neovim
+    vimPlugins.nvchad
+    vimPlugins.nvchad-ui
 
+    # FIXME: disable this if you don't want to use the starship promp
+
+    # FIXME: disable this if you don't want to use the starship prompt
     # key tools
     gh # for bootstrapping
     just
@@ -59,8 +66,9 @@
     bazel
     ninja
     llvm
-
-
+    gnumake
+    clang
+    
     # rust
     rustup
     
@@ -87,6 +95,8 @@
     shellcheck
     shfmt
     statix # nix
+
+    nushellPlugins.gstat
   ];
 in {
   imports = [
@@ -101,7 +111,7 @@ in {
 
     sessionVariables.EDITOR = "nvim";
     # FIXME: set your preferred $SHELL
-    sessionVariables.SHELL = "/etc/profiles/per-user/${username}/bin/fish";
+    sessionVariables.SHELL = "/etc/profiles/per-user/${username}/bin/nu";
   };
 
   home.packages =
@@ -117,38 +127,26 @@ in {
   programs = {
     home-manager.enable = true;
     nix-index.enable = true;
-    nix-index.enableFishIntegration = true;
     nix-index-database.comma.enable = true;
 
-    # FIXME: disable this if you don't want to use the starship prompt
-    starship.enable = true;
-    starship.settings = {
-      aws.disabled = true;
-      gcloud.disabled = true;
-      kubernetes.disabled = false;
-      git_branch.style = "242";
-      directory.style = "blue";
-      directory.truncate_to_repo = false;
-      directory.truncation_length = 8;
-      python.disabled = true;
-      ruby.disabled = true;
-      hostname.ssh_only = false;
-      hostname.style = "bold green";
-    };
 
     # FIXME: disable whatever you don't want
+    fzf.enable = true;
     skim.enable = true;
-    skim.enableFishIntegration = true;
     eza.enable = true;
-    eza.enableFishIntegration = true;
+    #eza.enableNushellIntegration = true;
     zoxide.enable = true;
-    zoxide.enableFishIntegration = true;
+    zoxide.enableNushellIntegration = true;
     zoxide.options = ["--cmd cd"];
     broot.enable = true;
-    broot.enableFishIntegration = true;
+    broot.enableNushellIntegration = true;
     direnv.enable = true;
     direnv.nix-direnv.enable = true;
-
+    direnv.enableNushellIntegration = true;
+    thefuck.enable = true;
+    thefuck.enableNushellIntegration = true;
+    carapace.enable = true;
+    carapace.enableNushellIntegration = true;
     git = {
       enable = true;
       package = pkgs.unstable.git;
@@ -184,84 +182,8 @@ in {
     };
 
     # FIXME: This is my fish config - you can fiddle with it if you want
-    fish = {
-      enable = true;
-      # FIXME: run 'scoop install win32yank' on Windows, then add this line with your Windows username to the bottom of interactiveShellInit
-      # fish_add_path --append /mnt/c/Users/<Your Windows Username>/scoop/apps/win32yank/0.1.1
-      interactiveShellInit = ''
-        ${pkgs.any-nix-shell}/bin/any-nix-shell fish --info-right | source
-
-        ${pkgs.lib.strings.fileContents (pkgs.fetchFromGitHub {
-            owner = "rebelot";
-            repo = "kanagawa.nvim";
-            rev = "de7fb5f5de25ab45ec6039e33c80aeecc891dd92";
-            sha256 = "sha256-f/CUR0vhMJ1sZgztmVTPvmsAgp0kjFov843Mabdzvqo=";
-          }
-          + "/extras/kanagawa.fish")}
-
-        set -U fish_greeting
-        fish_add_path --append /mnt/c/Users/johan/scoop/apps/win32yank/0.1.1
-      '';
-      functions = {
-        refresh = "source $HOME/.config/fish/config.fish";
-        take = ''mkdir -p -- "$1" && cd -- "$1"'';
-        ttake = "cd $(mktemp -d)";
-        show_path = "echo $PATH | tr ' ' '\n'";
-        posix-source = ''
-          for i in (cat $argv)
-            set arr (echo $i |tr = \n)
-            set -gx $arr[1] $arr[2]
-          end
-        '';
-      };
-      shellAbbrs =
-        {
-          gc = "nix-collect-garbage --delete-old";
-        }
-        # navigation shortcuts
-        // {
-          ".." = "cd ..";
-          "..." = "cd ../../";
-          "...." = "cd ../../../";
-          "....." = "cd ../../../../";
-        }
-        # git shortcuts
-        // {
-          gapa = "git add --patch";
-          grpa = "git reset --patch";
-          gst = "git status";
-          gdh = "git diff HEAD";
-          gp = "git push";
-          gph = "git push -u origin HEAD";
-          gco = "git checkout";
-          gcob = "git checkout -b";
-          gcm = "git checkout master";
-          gcd = "git checkout develop";
-          gsp = "git stash push -m";
-          gsa = "git stash apply stash^{/";
-          gsl = "git stash list";
-        };
-      shellAliases = {
-        jvim = "nvim";
-        lvim = "nvim";
-        pbcopy = "/mnt/c/Windows/System32/clip.exe";
-        pbpaste = "/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe -command 'Get-Clipboard'";
-        explorer = "/mnt/c/Windows/explorer.exe";
-      };
-      plugins = [
-        {
-          inherit (pkgs.fishPlugins.autopair) src;
-          name = "autopair";
-        }
-        {
-          inherit (pkgs.fishPlugins.done) src;
-          name = "done";
-        }
-        {
-          inherit (pkgs.fishPlugins.sponge) src;
-          name = "sponge";
-        }
-      ];
-    };
+  nushell = {
+  enable = true;
+  };
   };
 }

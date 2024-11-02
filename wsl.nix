@@ -11,9 +11,8 @@
   time.timeZone = "Europe/Copenhagen";
 
   # FIXME: change your shell here if you don't want fish
-  programs.fish.enable = true;
-  environment.pathsToLink = ["/share/fish"];
-  environment.shells = [pkgs.fish];
+  environment.pathsToLink = ["/share/nushell"];
+  environment.shells = [pkgs.nushell];
 
   environment.enableAllTerminfo = true;
 
@@ -25,11 +24,11 @@
   users.users.${username} = {
     isNormalUser = true;
     # FIXME: change your shell here if you don't want fish
-    shell = pkgs.fish;
+    shell = pkgs.nushell;
     extraGroups = [
       "wheel"
       # FIXME: uncomment the next line if you want to run docker without sudo
-      # "docker"
+      "docker"
     ];
     # FIXME: add your own hashed password
     # hashedPassword = "";
@@ -57,6 +56,17 @@
 
     # Enable integration with Docker Desktop (needs to be installed)
     docker-desktop.enable = false;
+    
+    extraBin = with pkgs; [
+      # Binaries for Docker Desktop wsl-distro-proxy
+      { src = "${coreutils}/bin/mkdir"; }
+      { src = "${coreutils}/bin/cat"; }
+      { src = "${coreutils}/bin/whoami"; }
+      { src = "${coreutils}/bin/ls"; }
+      { src = "${busybox}/bin/addgroup"; }
+      { src = "${su}/bin/groupadd"; }
+      { src = "${su}/bin/usermod"; }
+    ];
   };
 
   virtualisation.docker = {
